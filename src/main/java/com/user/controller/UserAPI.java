@@ -252,6 +252,8 @@ public class UserAPI {
 			if(productDto!=null)
 			{
 				String message=userService.addToCart(buyerId, prodId, quantity);
+				String orderDetails=""+buyerId+" "+prodId+" "+quantity;
+				kafkaTemplate.send(TOPIC,orderDetails);
 				return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
 			}
 			else
